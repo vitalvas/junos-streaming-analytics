@@ -21,7 +21,7 @@ func (app *App) receiver() {
 	for {
 		message := make([]byte, PacketSize)
 		n, err := ln.Read(message)
-		if err != nil || n == 0 {
+		if err != nil || (n == 0 && message != nil) {
 			log.Println("error read packet", err)
 			continue
 		}
