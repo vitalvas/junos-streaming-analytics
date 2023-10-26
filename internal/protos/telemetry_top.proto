@@ -30,8 +30,6 @@
 
 syntax = "proto2";
 
-option go_package = "../jti"; // !! Custom
-
 import "google/protobuf/descriptor.proto";
  
 extend google.protobuf.FieldOptions {
@@ -98,3 +96,4 @@ extend EnterpriseSensors {
 message JuniperNetworksSensors {
     extensions 1 to max;
 }
+

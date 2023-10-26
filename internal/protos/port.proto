@@ -33,8 +33,6 @@
 
 syntax = "proto2";
 
-option go_package = "../jti"; // !! Custom
-
 import "telemetry_top.proto";
 
 //
@@ -225,3 +223,4 @@ message EgressInterfaceErrors {
     // The number of non-error packets which were chosen to be discarded
     optional uint64 if_discards                      = 2 [(telemetry_options).is_counter = true];
 }
+

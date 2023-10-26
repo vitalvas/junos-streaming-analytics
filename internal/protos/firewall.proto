@@ -33,8 +33,6 @@
 
 syntax = "proto2";
 
-option go_package = "../jti"; // !! Custom
-
 import "telemetry_top.proto";
 
 //
@@ -153,3 +151,4 @@ message HierarchicalPolicerStats {
     // the aggregate policer
     optional uint64 aggregate_bytes       = 5 [(telemetry_options).is_counter = true];
 }
+
