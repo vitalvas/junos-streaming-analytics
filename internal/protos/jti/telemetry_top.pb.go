@@ -34,7 +34,7 @@
 // 	protoc        v4.24.2
 // source: telemetry_top.proto
 
-package protos
+package jti
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"

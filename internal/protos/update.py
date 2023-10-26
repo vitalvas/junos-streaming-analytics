@@ -32,12 +32,10 @@ for row in NAMES:
 
         relpath.append((curdir[len(os.getcwd())+1:], row))
 
-# os.chdir(curdir)
-
 
 build_args = []
 for mdir, mfile in relpath:
-    build_args.append(f"--go_opt=M{mfile}={mdir}")
+    build_args.append(f"--go_opt=M{mfile}={mdir}/jti")
 
 for mdir, mfile in relpath:
     exec_args = ["protoc", f"--go_out={mdir}/jti", "--go_opt=paths=source_relative", f"--proto_path={mdir}"] + build_args + [mfile]

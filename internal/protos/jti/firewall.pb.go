@@ -37,7 +37,7 @@
 // 	protoc        v4.24.2
 // source: firewall.proto
 
-package protos
+package jti
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
