@@ -10,6 +10,7 @@ NAMES = [
     "telemetry_top.proto",
     "firewall.proto",
     "port.proto",
+    "logical_port.proto",
 ]
 
 curdir = os.path.dirname(os.path.realpath(__file__))

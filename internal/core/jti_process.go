@@ -86,6 +86,23 @@ func (app *App) processJuniperNetworksSensors(msg jtiMessage, jns *jti.JuniperNe
 		}
 	}
 
+	if proto.HasExtension(jns, jti.E_JnprLogicalInterfaceExt) {
+		extension := proto.GetExtension(jns, jti.E_JnprLogicalInterfaceExt)
+		if extension == nil {
+			return fmt.Errorf("error getting jti E_JnprLogicalInterfaceExt extension")
+		}
+
+		switch p := extension.(type) {
+		case *jti.LogicalPort:
+			if err := app.jtiParseLogicalPort(msg.Instance, p, baseLabels, timestamp); err != nil {
+				return err
+			}
+
+		default:
+			return fmt.Errorf("unknown jti E_JnprLogicalInterfaceExt protobuf extension type: %T", p)
+		}
+	}
+
 	if proto.HasExtension(jns, jti.E_JnprFirewallExt) {
 		extension := proto.GetExtension(jns, jti.E_JnprFirewallExt)
 		if extension == nil {
