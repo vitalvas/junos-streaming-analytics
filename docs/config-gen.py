@@ -16,7 +16,7 @@ class ConfigGenerator:
     def _export_profile(self) -> list:
         data = [
             f"set services analytics export-profile {self.config['export_profile_name']} reporting-rate {self.config['export_reporting_rate']}",
-            f"set services analytics export-profile {self.config['export_profile_name']} payload-size 1480",
+            f"set services analytics export-profile {self.config['export_profile_name']} payload-size 9000",
             f"set services analytics export-profile {self.config['export_profile_name']} format gpb",
             f"set services analytics export-profile {self.config['export_profile_name']} transport udp",
             f"set services analytics export-profile {self.config['export_profile_name']} forwarding-class network-control",
