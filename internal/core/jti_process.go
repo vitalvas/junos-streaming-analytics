@@ -2,7 +2,6 @@ package core
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/vitalvas/junos-streaming-analytics/internal/protos/jti"
 	"google.golang.org/protobuf/proto"
@@ -58,28 +57,8 @@ func (app *App) processJTIMessage(msg jtiMessage) error {
 
 	switch jns := jnsIface.(type) {
 	case *jti.JuniperNetworksSensors:
-		if proto.HasExtension(jns, jti.E_JnprInterfaceExt) {
-			extension := proto.GetExtension(jns, jti.E_JnprInterfaceExt)
-			if extension == nil {
-				return fmt.Errorf("error getting jti E_JnprInterfaceExt extension")
-			}
-
-			switch p := extension.(type) {
-			case *jti.Port:
-				if err := app.jtiParsePort(msg.Instance, p, baseLabels, timestamp); err != nil {
-					return err
-				}
-
-			default:
-				return fmt.Errorf("unknown jti E_JnprInterfaceExt protobuf extension type: %T", p)
-			}
-
-			// } else if proto.HasExtension(jns, jti.E_JnprFirewallExt) {
-			// 	extension := proto.GetExtension(jns, jti.E_JnprFirewallExt)
-			// 	if extension == nil {
-			// 		return fmt.Errorf("error getting jti E_JnprFirewallExt extension")
-			// 	}
-
+		if err := app.processJuniperNetworksSensors(msg, jns, baseLabels, timestamp); err != nil {
+			return err
 		}
 
 	default:
@@ -89,18 +68,40 @@ func (app *App) processJTIMessage(msg jtiMessage) error {
 	return nil
 }
 
-func getJTIHostname(ts *jti.TelemetryStream) string {
-	resp := ""
-	if ts.SystemId != nil {
-		systemID := ts.GetSystemId()
+func (app *App) processJuniperNetworksSensors(msg jtiMessage, jns *jti.JuniperNetworksSensors, baseLabels map[string]string, timestamp int64) error {
+	if proto.HasExtension(jns, jti.E_JnprInterfaceExt) {
+		extension := proto.GetExtension(jns, jti.E_JnprInterfaceExt)
+		if extension == nil {
+			return fmt.Errorf("error getting jti E_JnprInterfaceExt extension")
+		}
 
-		// format: <router name>:<ip address>
-		names := strings.Split(systemID, ":")
-		if len(names) > 0 {
-			resp = names[0]
+		switch p := extension.(type) {
+		case *jti.Port:
+			if err := app.jtiParsePort(msg.Instance, p, baseLabels, timestamp); err != nil {
+				return err
+			}
+
+		default:
+			return fmt.Errorf("unknown jti E_JnprInterfaceExt protobuf extension type: %T", p)
 		}
 	}
 
-	// TODO: dns resolve if empty
-	return resp
+	if proto.HasExtension(jns, jti.E_JnprFirewallExt) {
+		extension := proto.GetExtension(jns, jti.E_JnprFirewallExt)
+		if extension == nil {
+			return fmt.Errorf("error getting jti E_JnprFirewallExt extension")
+		}
+
+		switch p := extension.(type) {
+		case *jti.Firewall:
+			if err := app.jtiParseFirewall(msg.Instance, p, baseLabels, timestamp); err != nil {
+				return err
+			}
+
+		default:
+			return fmt.Errorf("unknown jti E_JnprFirewallExt protobuf extension type: %T", p)
+		}
+	}
+
+	return nil
 }
