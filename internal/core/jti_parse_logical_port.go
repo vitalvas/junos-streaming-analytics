@@ -157,6 +157,11 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 
 		}
 
+		for name, value := range metrics {
+			if err := app.addMetricToOutput(instance, output.JoinMetricName(logicPortSeriesName, name), labels, value, timestamp); err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
