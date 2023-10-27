@@ -44,6 +44,14 @@ func NewCore(ctx context.Context, config *CollectorConfig) (*App, error) {
 
 			core.outputs[name] = output
 
+		// case "prometheus":
+		// 	output, err := prometheus.NewOutput(outputConfig)
+		// 	if err != nil {
+		// 		return nil, err
+		// 	}
+
+		// 	core.outputs[name] = output
+
 		default:
 			return nil, fmt.Errorf("unknown output type: %s", outputConfig.Type)
 		}

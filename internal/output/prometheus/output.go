@@ -4,10 +4,13 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/prometheus/prometheus/prompb"
+
+	"github.com/vitalvas/junos-streaming-analytics/internal/output"
 )
 
 const (
@@ -15,13 +18,31 @@ const (
 )
 
 type Output struct {
-	URL string
+	conf output.Config
+
+	url string
 
 	metrics []prompb.TimeSeries
 }
 
-func NewOutput() *Output {
-	return &Output{}
+func NewOutput(config output.Config) (*Output, error) {
+	output := &Output{
+		conf: config,
+	}
+
+	if val, ok := config.Config["url"]; ok {
+		link, err := url.Parse(val)
+		if err != nil {
+			return nil, err
+		}
+
+		output.url = link.String()
+
+	} else {
+		return nil, fmt.Errorf("missing url")
+	}
+
+	return output, nil
 }
 
 func (o *Output) AddMetric(name string, labels map[string]string, value float64, timestamp int64) error {
@@ -62,7 +83,7 @@ func (o *Output) Send() error {
 		return err
 	}
 
-	resp, err := http.Post(o.URL, "application/x-protobuf", bytes.NewReader(data))
+	resp, err := http.Post(o.url, "application/x-protobuf", bytes.NewReader(data))
 	if err != nil {
 		return err
 	}
