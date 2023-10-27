@@ -16,7 +16,7 @@ class ConfigGenerator:
     def _export_profile(self) -> list:
         data = [
             f"set services analytics export-profile {self.config['export_profile_name']} reporting-rate {self.config['export_reporting_rate']}",
-            f"set services analytics export-profile {self.config['export_profile_name']} payload-size 9000",
+            f"set services analytics export-profile {self.config['export_profile_name']} payload-size 3000",
             f"set services analytics export-profile {self.config['export_profile_name']} format gpb",
             f"set services analytics export-profile {self.config['export_profile_name']} transport udp",
             f"set services analytics export-profile {self.config['export_profile_name']} forwarding-class network-control",
@@ -31,6 +31,9 @@ class ConfigGenerator:
         resources = [
             "/junos/system/linecard/firewall/",
             "/junos/system/linecard/interface/",
+            "/junos/system/linecard/interface/logical/usage/",
+            "/junos/system/linecard/intf-exp/",
+            "/junos/system/linecard/optics/",
         ]
 
         data = []
