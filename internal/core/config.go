@@ -3,6 +3,7 @@ package core
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"os"
 	"runtime"
 	"strings"
@@ -35,6 +36,11 @@ func ParseCollectorConfig(configPath string) (*CollectorConfig, error) {
 			},
 		},
 		Workers: runtime.NumCPU(),
+	}
+
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		log.Println("config file not found, using default config")
+		return &config, nil
 	}
 
 	file, err := os.Open(configPath)
