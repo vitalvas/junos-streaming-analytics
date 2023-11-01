@@ -31,11 +31,12 @@ class ConfigGenerator:
         resources = [
             "/junos/system/linecard/firewall/",
             "/junos/system/linecard/interface/",
+            "/junos/system/linecard/interface/queue/",
             "/junos/system/linecard/interface/logical/usage/",
-            "/junos/system/linecard/intf-exp/",
             "/junos/system/linecard/optics/",
         ]
 
+        sorted(resources)
         data = []
 
         for resource in resources:

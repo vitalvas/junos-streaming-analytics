@@ -21,3 +21,11 @@ func getJTIHostname(ts *jti.TelemetryStream) string {
 	// TODO: dns resolve if empty
 	return resp
 }
+
+func boolToFloat64(b bool) float64 {
+	if b {
+		return 1
+	}
+
+	return 0
+}

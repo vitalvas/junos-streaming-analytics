@@ -11,6 +11,7 @@ NAMES = [
     "firewall.proto",
     "port.proto",
     "logical_port.proto",
+    "optics.proto",
 ]
 
 curdir = os.path.dirname(os.path.realpath(__file__))

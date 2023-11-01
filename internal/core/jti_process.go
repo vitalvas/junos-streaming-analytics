@@ -120,5 +120,22 @@ func (app *App) processJuniperNetworksSensors(msg jtiMessage, jns *jti.JuniperNe
 		}
 	}
 
+	if proto.HasExtension(jns, jti.E_JnprOpticsExt) {
+		extension := proto.GetExtension(jns, jti.E_JnprOpticsExt)
+		if extension == nil {
+			return fmt.Errorf("error getting jti E_JnprOpticsExt extension")
+		}
+
+		switch p := extension.(type) {
+		case *jti.Optics:
+			if err := app.jtiParseOptics(msg.Instance, p, baseLabels, timestamp); err != nil {
+				return err
+			}
+
+		default:
+			return fmt.Errorf("unknown jti E_JnprOpticsExt protobuf extension type: %T", p)
+		}
+	}
+
 	return nil
 }
