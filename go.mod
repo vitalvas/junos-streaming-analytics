@@ -4,6 +4,7 @@ go 1.21
 
 require (
 	github.com/gogo/protobuf v1.3.2
+	github.com/golang/snappy v0.0.4
 	github.com/prometheus/prometheus v0.47.2
 	github.com/vitalvas/gokit v0.8.0
 	golang.org/x/sync v0.4.0

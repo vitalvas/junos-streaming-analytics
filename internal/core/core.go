@@ -3,9 +3,11 @@ package core
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/vitalvas/junos-streaming-analytics/internal/output"
 	"github.com/vitalvas/junos-streaming-analytics/internal/output/console"
+	"github.com/vitalvas/junos-streaming-analytics/internal/output/prometheus"
 )
 
 const (
@@ -44,13 +46,13 @@ func NewCore(ctx context.Context, config *CollectorConfig) (*App, error) {
 
 			core.outputs[name] = output
 
-		// case "prometheus":
-		// 	output, err := prometheus.NewOutput(outputConfig)
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
+		case "prometheus":
+			output, err := prometheus.NewOutput(outputConfig)
+			if err != nil {
+				return nil, err
+			}
 
-		// 	core.outputs[name] = output
+			core.outputs[name] = output
 
 		default:
 			return nil, fmt.Errorf("unknown output type: %s", outputConfig.Type)
@@ -65,6 +67,8 @@ func NewCore(ctx context.Context, config *CollectorConfig) (*App, error) {
 }
 
 func (app *App) Shutdown(ctx context.Context) {
+	log.Println("shutting down")
+
 	close(app.shutdownCh)
 
 	app.SendAllOutputs(ctx)
