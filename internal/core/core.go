@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
+	"time"
 
 	"github.com/vitalvas/junos-streaming-analytics/internal/output"
 	"github.com/vitalvas/junos-streaming-analytics/internal/output/console"
@@ -68,6 +70,11 @@ func NewCore(ctx context.Context, config *CollectorConfig) (*App, error) {
 
 func (app *App) Shutdown(ctx context.Context) {
 	log.Println("shutting down")
+
+	go func() {
+		time.Sleep(5 * time.Second)
+		os.Exit(1)
+	}()
 
 	close(app.shutdownCh)
 
