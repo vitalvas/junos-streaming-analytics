@@ -21,33 +21,33 @@ func (app *App) jtiParseOptics(instance string, data *jti.Optics, baseLabels map
 		}
 
 		if stats := opticsInfos.GetOpticsDiagStats(); stats != nil {
-			metrics[output.JoinMetricName("optics_diag_stats", "optics_type")] = float64(stats.GetOpticsType())
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp")] = stats.GetModuleTemp()
+			metrics[output.JoinMetricName("diag_stats", "optics_type")] = float64(stats.GetOpticsType())
+			metrics[output.JoinMetricName("diag_stats", "module_temp")] = stats.GetModuleTemp()
 
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_high_alarm_threshold")] = stats.GetModuleTempHighAlarmThreshold()
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_low_alarm_threshold")] = stats.GetModuleTempLowAlarmThreshold()
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_high_warning_threshold")] = stats.GetModuleTempHighWarningThreshold()
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_low_warning_threshold")] = stats.GetModuleTempLowWarningThreshold()
+			metrics[output.JoinMetricName("diag_stats", "module_temp_high_alarm_threshold")] = stats.GetModuleTempHighAlarmThreshold()
+			metrics[output.JoinMetricName("diag_stats", "module_temp_low_alarm_threshold")] = stats.GetModuleTempLowAlarmThreshold()
+			metrics[output.JoinMetricName("diag_stats", "module_temp_high_warning_threshold")] = stats.GetModuleTempHighWarningThreshold()
+			metrics[output.JoinMetricName("diag_stats", "module_temp_low_warning_threshold")] = stats.GetModuleTempLowWarningThreshold()
 
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_output_power_high_alarm_threshold_dbm")] = stats.GetLaserOutputPowerHighAlarmThresholdDbm()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_output_power_low_alarm_threshold_dbm")] = stats.GetLaserOutputPowerLowAlarmThresholdDbm()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_output_power_high_warning_threshold_dbm")] = stats.GetLaserOutputPowerHighWarningThresholdDbm()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_output_power_low_warning_threshold_dbm")] = stats.GetLaserOutputPowerLowWarningThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_output_power_high_alarm_threshold_dbm")] = stats.GetLaserOutputPowerHighAlarmThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_output_power_low_alarm_threshold_dbm")] = stats.GetLaserOutputPowerLowAlarmThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_output_power_high_warning_threshold_dbm")] = stats.GetLaserOutputPowerHighWarningThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_output_power_low_warning_threshold_dbm")] = stats.GetLaserOutputPowerLowWarningThresholdDbm()
 
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_rx_power_high_alarm_threshold_dbm")] = stats.GetLaserRxPowerHighAlarmThresholdDbm()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_rx_power_low_alarm_threshold_dbm")] = stats.GetLaserRxPowerLowAlarmThresholdDbm()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_rx_power_high_warning_threshold_dbm")] = stats.GetLaserRxPowerHighWarningThresholdDbm()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_rx_power_low_warning_threshold_dbm")] = stats.GetLaserRxPowerLowWarningThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_high_alarm_threshold_dbm")] = stats.GetLaserRxPowerHighAlarmThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_low_alarm_threshold_dbm")] = stats.GetLaserRxPowerLowAlarmThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_high_warning_threshold_dbm")] = stats.GetLaserRxPowerHighWarningThresholdDbm()
+			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_low_warning_threshold_dbm")] = stats.GetLaserRxPowerLowWarningThresholdDbm()
 
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_bias_current_high_alarm_threshold")] = stats.GetLaserBiasCurrentHighAlarmThreshold()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_bias_current_low_alarm_threshold")] = stats.GetLaserBiasCurrentLowAlarmThreshold()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_bias_current_high_warning_threshold")] = stats.GetLaserBiasCurrentHighWarningThreshold()
-			metrics[output.JoinMetricName("optics_diag_stats", "laser_bias_current_low_warning_threshold")] = stats.GetLaserBiasCurrentLowWarningThreshold()
+			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_high_alarm_threshold")] = stats.GetLaserBiasCurrentHighAlarmThreshold()
+			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_low_alarm_threshold")] = stats.GetLaserBiasCurrentLowAlarmThreshold()
+			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_high_warning_threshold")] = stats.GetLaserBiasCurrentHighWarningThreshold()
+			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_low_warning_threshold")] = stats.GetLaserBiasCurrentLowWarningThreshold()
 
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_high_alarm")] = boolToFloat64(stats.GetModuleTempHighAlarm())
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_low_alarm")] = boolToFloat64(stats.GetModuleTempLowAlarm())
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_high_warning")] = boolToFloat64(stats.GetModuleTempHighWarning())
-			metrics[output.JoinMetricName("optics_diag_stats", "module_temp_low_warning")] = boolToFloat64(stats.GetModuleTempLowWarning())
+			metrics[output.JoinMetricName("diag_stats", "module_temp_high_alarm")] = boolToFloat64(stats.GetModuleTempHighAlarm())
+			metrics[output.JoinMetricName("diag_stats", "module_temp_low_alarm")] = boolToFloat64(stats.GetModuleTempLowAlarm())
+			metrics[output.JoinMetricName("diag_stats", "module_temp_high_warning")] = boolToFloat64(stats.GetModuleTempHighWarning())
+			metrics[output.JoinMetricName("diag_stats", "module_temp_low_warning")] = boolToFloat64(stats.GetModuleTempLowWarning())
 
 			for name, value := range metrics {
 				if err := app.addMetricToOutput(instance, output.JoinMetricName(opticsSeriesName, name), labels, value, timestamp); err != nil {
