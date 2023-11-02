@@ -31,8 +31,10 @@ class ConfigGenerator:
         resources = [
             "/junos/system/linecard/firewall/",
             "/junos/system/linecard/interface/",
-            "/junos/system/linecard/interface/queue/",
+            "/junos/system/linecard/interface/logical/family/ipv4/usage/",
+            "/junos/system/linecard/interface/logical/family/ipv6/usage/",
             "/junos/system/linecard/interface/logical/usage/",
+            "/junos/system/linecard/interface/queue/",
             "/junos/system/linecard/optics/",
         ]
 
