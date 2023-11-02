@@ -13,8 +13,8 @@ import (
 )
 
 const (
-	udpReadBufferSize = 16384
-	jtiBacklog        = 10000
+	udpReadBufferSize = 32768
+	jtiBacklog        = 65536
 )
 
 type App struct {
