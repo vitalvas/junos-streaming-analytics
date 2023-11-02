@@ -24,13 +24,13 @@ func (app *App) jtiParsePort(instance string, data *jti.Port, baseLabels map[str
 			labels["parent_ae_name"] = name
 		}
 
-		metrics := map[string]float64{
-			"init_time":      float64(interfaceStat.GetInitTime()),
-			"snmp_if_index":  float64(interfaceStat.GetSnmpIfIndex()),
-			"if_transitions": float64(interfaceStat.GetIfTransitions()),
-			"if_last_change": float64(interfaceStat.GetIfLastChange()),
-			"if_high_speed":  float64(interfaceStat.GetIfHighSpeed()),
-		}
+		metrics := make(map[string]float64)
+
+		addToMetrics(metrics, "init_time", interfaceStat.InitTime)
+		addToMetrics(metrics, "snmp_if_index", interfaceStat.SnmpIfIndex)
+		addToMetrics(metrics, "if_transitions", interfaceStat.IfTransitions)
+		addToMetrics(metrics, "if_last_change", interfaceStat.IfLastChange)
+		addToMetrics(metrics, "if_high_speed", interfaceStat.IfHighSpeed)
 
 		for dir, stats := range map[string]*jti.InterfaceStats{
 			"ingress_stats": interfaceStat.GetIngressStats(),
@@ -40,34 +40,34 @@ func (app *App) jtiParsePort(instance string, data *jti.Port, baseLabels map[str
 				continue
 			}
 
-			metrics[output.JoinMetricName(dir, "if_pkts")] = float64(stats.GetIfPkts())
-			metrics[output.JoinMetricName(dir, "if_octets")] = float64(stats.GetIfOctets())
-			metrics[output.JoinMetricName(dir, "if_1sec_pkts")] = float64(stats.GetIf_1SecPkts())
-			metrics[output.JoinMetricName(dir, "if_1sec_octets")] = float64(stats.GetIf_1SecOctets())
-			metrics[output.JoinMetricName(dir, "if_uc_pkts")] = float64(stats.GetIfUcPkts())
-			metrics[output.JoinMetricName(dir, "if_mc_pkts")] = float64(stats.GetIfMcPkts())
-			metrics[output.JoinMetricName(dir, "if_bc_pkts")] = float64(stats.GetIfBcPkts())
-			metrics[output.JoinMetricName(dir, "if_error")] = float64(stats.GetIfError())
-			metrics[output.JoinMetricName(dir, "if_pause_pkts")] = float64(stats.GetIfPausePkts())
-			metrics[output.JoinMetricName(dir, "if_unknown_proto_pkts")] = float64(stats.GetIfUnknownProtoPkts())
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_pkts"), stats.IfPkts)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_octets"), stats.IfOctets)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_1sec_pkts"), stats.If_1SecPkts)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_1sec_octets"), stats.If_1SecOctets)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_uc_pkts"), stats.IfUcPkts)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_mc_pkts"), stats.IfMcPkts)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_bc_pkts"), stats.IfBcPkts)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_error"), stats.IfError)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_pause_pkts"), stats.IfPausePkts)
+			addToMetrics(metrics, output.JoinMetricName(dir, "if_unknown_proto_pkts"), stats.IfUnknownProtoPkts)
 		}
 
-		if stats := interfaceStat.GetIngressErrors(); data != nil {
-			metrics[output.JoinMetricName("ingress_errors", "if_errors")] = float64(stats.GetIfErrors())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_qdrops")] = float64(stats.GetIfInQdrops())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_frame_errors")] = float64(stats.GetIfInFrameErrors())
-			metrics[output.JoinMetricName("ingress_errors", "if_discards")] = float64(stats.GetIfDiscards())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_runts")] = float64(stats.GetIfInRunts())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_l3_incompletes")] = float64(stats.GetIfInL3Incompletes())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_l2chan_errors")] = float64(stats.GetIfInL2ChanErrors())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_l2_mismatch_timeouts")] = float64(stats.GetIfInL2MismatchTimeouts())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_fifo_errors")] = float64(stats.GetIfInFifoErrors())
-			metrics[output.JoinMetricName("ingress_errors", "if_in_resource_errors")] = float64(stats.GetIfInResourceErrors())
+		if stats := interfaceStat.GetIngressErrors(); stats != nil {
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_errors"), stats.IfErrors)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_qdrops"), stats.IfInQdrops)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_frame_errors"), stats.IfInFrameErrors)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_discards"), stats.IfDiscards)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_runts"), stats.IfInRunts)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_l3_incompletes"), stats.IfInL3Incompletes)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_l2chan_errors"), stats.IfInL2ChanErrors)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_l2_mismatch_timeouts"), stats.IfInL2MismatchTimeouts)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_fifo_errors"), stats.IfInFifoErrors)
+			addToMetrics(metrics, output.JoinMetricName("ingress_errors", "if_in_resource_errors"), stats.IfInResourceErrors)
 		}
 
-		if stats := interfaceStat.GetEgressErrors(); data != nil {
-			metrics[output.JoinMetricName("egress_errors", "if_errors")] = float64(stats.GetIfErrors())
-			metrics[output.JoinMetricName("egress_errors", "if_discards")] = float64(stats.GetIfDiscards())
+		if stats := interfaceStat.GetEgressErrors(); stats != nil {
+			addToMetrics(metrics, output.JoinMetricName("egress_errors", "if_errors"), stats.IfErrors)
+			addToMetrics(metrics, output.JoinMetricName("egress_errors", "if_discards"), stats.IfDiscards)
 		}
 
 		for name, value := range metrics {
@@ -89,19 +89,19 @@ func (app *App) jtiParsePort(instance string, data *jti.Port, baseLabels map[str
 					"queue_number": fmt.Sprintf("%d", queueStat.GetQueueNumber()),
 				})
 
-				queueMetrics := map[string]float64{
-					"packets":               float64(queueStat.GetPackets()),
-					"bytes":                 float64(queueStat.GetBytes()),
-					"tail_drop_packets":     float64(queueStat.GetTailDropPackets()),
-					"rl_drop_packets":       float64(queueStat.GetRlDropPackets()),
-					"rl_drop_bytes":         float64(queueStat.GetRlDropBytes()),
-					"red_drop_packets":      float64(queueStat.GetRedDropPackets()),
-					"red_drop_bytes":        float64(queueStat.GetRedDropBytes()),
-					"avg_buffer_occupancy":  float64(queueStat.GetAvgBufferOccupancy()),
-					"cur_buffer_occupancy":  float64(queueStat.GetCurBufferOccupancy()),
-					"peak_buffer_occupancy": float64(queueStat.GetPeakBufferOccupancy()),
-					"allocated_buffer_size": float64(queueStat.GetAllocatedBufferSize()),
-				}
+				queueMetrics := make(map[string]float64)
+
+				addToMetrics(queueMetrics, "packets", queueStat.Packets)
+				addToMetrics(queueMetrics, "bytes", queueStat.Bytes)
+				addToMetrics(queueMetrics, "tail_drop_packets", queueStat.TailDropPackets)
+				addToMetrics(queueMetrics, "rl_drop_packets", queueStat.RlDropPackets)
+				addToMetrics(queueMetrics, "rl_drop_bytes", queueStat.RlDropBytes)
+				addToMetrics(queueMetrics, "red_drop_packets", queueStat.RedDropPackets)
+				addToMetrics(queueMetrics, "red_drop_bytes", queueStat.RedDropBytes)
+				addToMetrics(queueMetrics, "avg_buffer_occupancy", queueStat.AvgBufferOccupancy)
+				addToMetrics(queueMetrics, "cur_buffer_occupancy", queueStat.CurBufferOccupancy)
+				addToMetrics(queueMetrics, "peak_buffer_occupancy", queueStat.PeakBufferOccupancy)
+				addToMetrics(queueMetrics, "allocated_buffer_size", queueStat.AllocatedBufferSize)
 
 				for queueMetricsName, queueMetricsValue := range queueMetrics {
 					if err := app.addMetricToOutput(instance, output.JoinMetricName(portSeriesName, name, queueMetricsName), queueLabels, queueMetricsValue, timestamp); err != nil {

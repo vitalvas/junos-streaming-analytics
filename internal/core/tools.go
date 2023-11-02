@@ -22,10 +22,49 @@ func getJTIHostname(ts *jti.TelemetryStream) string {
 	return resp
 }
 
-func boolToFloat64(b bool) float64 {
-	if b {
-		return 1
+func addToMetrics(metrics map[string]float64, key string, ptr interface{}) {
+	if ptr == nil {
+		return
 	}
 
-	return 0
+	switch v := ptr.(type) {
+	case *float32:
+		if v != nil {
+			metrics[key] = float64(*v)
+		}
+
+	case *float64:
+		if v != nil {
+			metrics[key] = *v
+		}
+
+	case *int32:
+		if v != nil {
+			metrics[key] = float64(*v)
+		}
+
+	case *int64:
+		if v != nil {
+			metrics[key] = float64(*v)
+		}
+
+	case *uint32:
+		if v != nil {
+			metrics[key] = float64(*v)
+		}
+
+	case *uint64:
+		if v != nil {
+			metrics[key] = float64(*v)
+		}
+
+	case *bool:
+		if v != nil {
+			if *v {
+				metrics[key] = 1
+			} else {
+				metrics[key] = 0
+			}
+		}
+	}
 }

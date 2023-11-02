@@ -21,33 +21,33 @@ func (app *App) jtiParseOptics(instance string, data *jti.Optics, baseLabels map
 		}
 
 		if stats := opticsInfos.GetOpticsDiagStats(); stats != nil {
-			metrics[output.JoinMetricName("diag_stats", "optics_type")] = float64(stats.GetOpticsType())
-			metrics[output.JoinMetricName("diag_stats", "module_temp")] = stats.GetModuleTemp()
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "optics_type"), stats.OpticsType)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp"), stats.ModuleTemp)
 
-			metrics[output.JoinMetricName("diag_stats", "module_temp_high_alarm_threshold")] = stats.GetModuleTempHighAlarmThreshold()
-			metrics[output.JoinMetricName("diag_stats", "module_temp_low_alarm_threshold")] = stats.GetModuleTempLowAlarmThreshold()
-			metrics[output.JoinMetricName("diag_stats", "module_temp_high_warning_threshold")] = stats.GetModuleTempHighWarningThreshold()
-			metrics[output.JoinMetricName("diag_stats", "module_temp_low_warning_threshold")] = stats.GetModuleTempLowWarningThreshold()
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_high_alarm_threshold"), stats.ModuleTempHighAlarmThreshold)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_low_alarm_threshold"), stats.ModuleTempLowAlarmThreshold)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_high_warning_threshold"), stats.ModuleTempHighWarningThreshold)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_low_warning_threshold"), stats.ModuleTempLowWarningThreshold)
 
-			metrics[output.JoinMetricName("diag_stats", "laser_output_power_high_alarm_threshold_dbm")] = stats.GetLaserOutputPowerHighAlarmThresholdDbm()
-			metrics[output.JoinMetricName("diag_stats", "laser_output_power_low_alarm_threshold_dbm")] = stats.GetLaserOutputPowerLowAlarmThresholdDbm()
-			metrics[output.JoinMetricName("diag_stats", "laser_output_power_high_warning_threshold_dbm")] = stats.GetLaserOutputPowerHighWarningThresholdDbm()
-			metrics[output.JoinMetricName("diag_stats", "laser_output_power_low_warning_threshold_dbm")] = stats.GetLaserOutputPowerLowWarningThresholdDbm()
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_output_power_high_alarm_threshold_dbm"), stats.LaserOutputPowerHighAlarmThresholdDbm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_output_power_low_alarm_threshold_dbm"), stats.LaserOutputPowerLowAlarmThresholdDbm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_output_power_high_warning_threshold_dbm"), stats.LaserOutputPowerHighWarningThresholdDbm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_output_power_low_warning_threshold_dbm"), stats.LaserOutputPowerLowWarningThresholdDbm)
 
-			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_high_alarm_threshold_dbm")] = stats.GetLaserRxPowerHighAlarmThresholdDbm()
-			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_low_alarm_threshold_dbm")] = stats.GetLaserRxPowerLowAlarmThresholdDbm()
-			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_high_warning_threshold_dbm")] = stats.GetLaserRxPowerHighWarningThresholdDbm()
-			metrics[output.JoinMetricName("diag_stats", "laser_rx_power_low_warning_threshold_dbm")] = stats.GetLaserRxPowerLowWarningThresholdDbm()
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_rx_power_high_alarm_threshold_dbm"), stats.LaserRxPowerHighAlarmThresholdDbm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_rx_power_low_alarm_threshold_dbm"), stats.LaserRxPowerLowAlarmThresholdDbm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_rx_power_high_warning_threshold_dbm"), stats.LaserRxPowerHighWarningThresholdDbm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_rx_power_low_warning_threshold_dbm"), stats.LaserRxPowerLowWarningThresholdDbm)
 
-			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_high_alarm_threshold")] = stats.GetLaserBiasCurrentHighAlarmThreshold()
-			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_low_alarm_threshold")] = stats.GetLaserBiasCurrentLowAlarmThreshold()
-			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_high_warning_threshold")] = stats.GetLaserBiasCurrentHighWarningThreshold()
-			metrics[output.JoinMetricName("diag_stats", "laser_bias_current_low_warning_threshold")] = stats.GetLaserBiasCurrentLowWarningThreshold()
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_bias_current_high_alarm_threshold"), stats.LaserBiasCurrentHighAlarmThreshold)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_bias_current_low_alarm_threshold"), stats.LaserBiasCurrentLowAlarmThreshold)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_bias_current_high_warning_threshold"), stats.LaserBiasCurrentHighWarningThreshold)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "laser_bias_current_low_warning_threshold"), stats.LaserBiasCurrentLowWarningThreshold)
 
-			metrics[output.JoinMetricName("diag_stats", "module_temp_high_alarm")] = boolToFloat64(stats.GetModuleTempHighAlarm())
-			metrics[output.JoinMetricName("diag_stats", "module_temp_low_alarm")] = boolToFloat64(stats.GetModuleTempLowAlarm())
-			metrics[output.JoinMetricName("diag_stats", "module_temp_high_warning")] = boolToFloat64(stats.GetModuleTempHighWarning())
-			metrics[output.JoinMetricName("diag_stats", "module_temp_low_warning")] = boolToFloat64(stats.GetModuleTempLowWarning())
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_high_alarm"), stats.ModuleTempHighAlarm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_low_alarm"), stats.ModuleTempLowAlarm)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_high_warning"), stats.ModuleTempHighWarning)
+			addToMetrics(metrics, output.JoinMetricName("diag_stats", "module_temp_low_warning"), stats.ModuleTempLowWarning)
 
 			for name, value := range metrics {
 				if err := app.addMetricToOutput(instance, output.JoinMetricName(opticsSeriesName, name), labels, value, timestamp); err != nil {
@@ -64,33 +64,33 @@ func (app *App) jtiParseOptics(instance string, data *jti.Optics, baseLabels map
 					"lane_number": fmt.Sprintf("%d", laneStats.GetLaneNumber()),
 				})
 
-				laneMetrics := map[string]float64{
-					"lane_laser_temperature":        laneStats.GetLaneLaserTemperature(),
-					"lane_laser_output_power_dbm":   float64(laneStats.GetLaneLaserOutputPowerDbm()),
-					"lane_laser_receiver_power_dbm": float64(laneStats.GetLaneLaserReceiverPowerDbm()),
-					"lane_laser_bias_current":       laneStats.GetLaneLaserBiasCurrent(),
+				laneMetrics := make(map[string]float64)
 
-					"lane_laser_output_power_high_alarm":   boolToFloat64(laneStats.GetLaneLaserOutputPowerHighAlarm()),
-					"lane_laser_output_power_low_alarm":    boolToFloat64(laneStats.GetLaneLaserOutputPowerLowAlarm()),
-					"lane_laser_output_power_high_warning": boolToFloat64(laneStats.GetLaneLaserOutputPowerHighWarning()),
-					"lane_laser_output_power_low_warning":  boolToFloat64(laneStats.GetLaneLaserOutputPowerLowWarning()),
+				addToMetrics(laneMetrics, "lane_laser_temperature", laneStats.LaneLaserTemperature)
+				addToMetrics(laneMetrics, "lane_laser_output_power_dbm", laneStats.LaneLaserOutputPowerDbm)
+				addToMetrics(laneMetrics, "lane_laser_receiver_power_dbm", laneStats.LaneLaserReceiverPowerDbm)
+				addToMetrics(laneMetrics, "lane_laser_bias_current", laneStats.LaneLaserBiasCurrent)
 
-					"lane_laser_receiver_power_high_alarm":   boolToFloat64(laneStats.GetLaneLaserReceiverPowerHighAlarm()),
-					"lane_laser_receiver_power_low_alarm":    boolToFloat64(laneStats.GetLaneLaserReceiverPowerLowAlarm()),
-					"lane_laser_receiver_power_high_warning": boolToFloat64(laneStats.GetLaneLaserReceiverPowerHighWarning()),
-					"lane_laser_receiver_power_low_warning":  boolToFloat64(laneStats.GetLaneLaserReceiverPowerLowWarning()),
+				addToMetrics(laneMetrics, "lane_laser_output_power_high_alarm", laneStats.LaneLaserOutputPowerHighAlarm)
+				addToMetrics(laneMetrics, "lane_laser_output_power_low_alarm", laneStats.LaneLaserOutputPowerLowAlarm)
+				addToMetrics(laneMetrics, "lane_laser_output_power_high_warning", laneStats.LaneLaserOutputPowerHighWarning)
+				addToMetrics(laneMetrics, "lane_laser_output_power_low_warning", laneStats.LaneLaserOutputPowerLowWarning)
 
-					"lane_laser_bias_current_high_alarm":   boolToFloat64(laneStats.GetLaneLaserBiasCurrentHighAlarm()),
-					"lane_laser_bias_current_low_alarm":    boolToFloat64(laneStats.GetLaneLaserBiasCurrentLowAlarm()),
-					"lane_laser_bias_current_high_warning": boolToFloat64(laneStats.GetLaneLaserBiasCurrentHighWarning()),
-					"lane_laser_bias_current_low_warning":  boolToFloat64(laneStats.GetLaneLaserBiasCurrentLowWarning()),
-					"lane_tx_loss_of_signal_alarm":         boolToFloat64(laneStats.GetLaneTxLossOfSignalAlarm()),
-					"lane_rx_loss_of_signal_alarm":         boolToFloat64(laneStats.GetLaneRxLossOfSignalAlarm()),
-					"lane_tx_laser_disabled_alarm":         boolToFloat64(laneStats.GetLaneTxLaserDisabledAlarm()),
-				}
+				addToMetrics(laneMetrics, "lane_laser_receiver_power_high_alarm", laneStats.LaneLaserReceiverPowerHighAlarm)
+				addToMetrics(laneMetrics, "lane_laser_receiver_power_low_alarm", laneStats.LaneLaserReceiverPowerLowAlarm)
+				addToMetrics(laneMetrics, "lane_laser_receiver_power_high_warning", laneStats.LaneLaserReceiverPowerHighWarning)
+				addToMetrics(laneMetrics, "lane_laser_receiver_power_low_warning", laneStats.LaneLaserReceiverPowerLowWarning)
+
+				addToMetrics(laneMetrics, "lane_laser_bias_current_high_alarm", laneStats.LaneLaserBiasCurrentHighAlarm)
+				addToMetrics(laneMetrics, "lane_laser_bias_current_low_alarm", laneStats.LaneLaserBiasCurrentLowAlarm)
+				addToMetrics(laneMetrics, "lane_laser_bias_current_high_warning", laneStats.LaneLaserBiasCurrentHighWarning)
+				addToMetrics(laneMetrics, "lane_laser_bias_current_low_warning", laneStats.LaneLaserBiasCurrentLowWarning)
+				addToMetrics(laneMetrics, "lane_tx_loss_of_signal_alarm", laneStats.LaneTxLossOfSignalAlarm)
+				addToMetrics(laneMetrics, "lane_rx_loss_of_signal_alarm", laneStats.LaneRxLossOfSignalAlarm)
+				addToMetrics(laneMetrics, "lane_tx_laser_disabled_alarm", laneStats.LaneTxLaserDisabledAlarm)
 
 				for name, value := range laneMetrics {
-					if err := app.addMetricToOutput(instance, output.JoinMetricName(opticsSeriesName, "optics_lane_diag_stats", name), laneLabels, value, timestamp); err != nil {
+					if err := app.addMetricToOutput(instance, output.JoinMetricName(opticsSeriesName, "lane_diag_stats", name), laneLabels, value, timestamp); err != nil {
 						return err
 					}
 				}

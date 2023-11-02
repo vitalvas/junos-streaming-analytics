@@ -24,18 +24,17 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 			labels["parent_ae_name"] = name
 		}
 
-		metrics := map[string]float64{
-			"init_time":     float64(interfaceInfo.GetInitTime()),
-			"snmp_if_index": float64(interfaceInfo.GetSnmpIfIndex()),
-			"last_change":   float64(interfaceInfo.GetLastChange()),
-			"high_speed":    float64(interfaceInfo.GetHighSpeed()),
-		}
+		metrics := make(map[string]float64)
+		addToMetrics(metrics, "init_time", interfaceInfo.InitTime)
+		addToMetrics(metrics, "snmp_if_index", interfaceInfo.SnmpIfIndex)
+		addToMetrics(metrics, "last_change", interfaceInfo.LastChange)
+		addToMetrics(metrics, "high_speed", interfaceInfo.HighSpeed)
 
 		if stats := interfaceInfo.GetIngressStats(); stats != nil {
-			metrics[output.JoinMetricName("ingress_stats", "if_packets")] = float64(stats.GetIfPackets())
-			metrics[output.JoinMetricName("ingress_stats", "if_octets")] = float64(stats.GetIfOctets())
-			metrics[output.JoinMetricName("ingress_stats", "if_ucast_packets")] = float64(stats.GetIfUcastPackets())
-			metrics[output.JoinMetricName("ingress_stats", "if_mcast_packets")] = float64(stats.GetIfMcastPackets())
+			addToMetrics(metrics, output.JoinMetricName("ingress_stats", "if_packets"), stats.IfPackets)
+			addToMetrics(metrics, output.JoinMetricName("ingress_stats", "if_octets"), stats.IfOctets)
+			addToMetrics(metrics, output.JoinMetricName("ingress_stats", "if_ucast_packets"), stats.IfUcastPackets)
+			addToMetrics(metrics, output.JoinMetricName("ingress_stats", "if_mcast_packets"), stats.IfMcastPackets)
 
 			for _, ifFcStats := range stats.GetIfFcStats() {
 				if ifFcStats == nil {
@@ -47,10 +46,9 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 					"fc_number": fmt.Sprintf("%d", ifFcStats.GetFcNumber()),
 				})
 
-				ifFcStatsMetrics := map[string]float64{
-					"if_packets": float64(ifFcStats.GetIfPackets()),
-					"if_octets":  float64(ifFcStats.GetIfOctets()),
-				}
+				ifFcStatsMetrics := make(map[string]float64)
+				addToMetrics(ifFcStatsMetrics, "if_packets", ifFcStats.IfPackets)
+				addToMetrics(ifFcStatsMetrics, "if_octets", ifFcStats.IfOctets)
 
 				for key, value := range ifFcStatsMetrics {
 					if err := app.addMetricToOutput(instance, output.JoinMetricName(logicPortSeriesName, "ingress_stats", "if_fc_stats", key), ifFcStatsLabels, value, timestamp); err != nil {
@@ -68,14 +66,13 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 					"if_family": ifFaStats.GetIfFamily(),
 				})
 
-				ifFaStatsMetrics := map[string]float64{
-					"if_packets":       float64(ifFaStats.GetIfPackets()),
-					"if_octets":        float64(ifFaStats.GetIfOctets()),
-					"if_v6_packets":    float64(ifFaStats.GetIfV6Packets()),
-					"if_v6_octets":     float64(ifFaStats.GetIfV6Octets()),
-					"if_mcast_packets": float64(ifFaStats.GetIfMcastPackets()),
-					"if_mcast_octets":  float64(ifFaStats.GetIfMcastOctets()),
-				}
+				ifFaStatsMetrics := make(map[string]float64)
+				addToMetrics(ifFaStatsMetrics, "if_packets", ifFaStats.IfPackets)
+				addToMetrics(ifFaStatsMetrics, "if_octets", ifFaStats.IfOctets)
+				addToMetrics(ifFaStatsMetrics, "if_v6_packets", ifFaStats.IfV6Packets)
+				addToMetrics(ifFaStatsMetrics, "if_v6_octets", ifFaStats.IfV6Octets)
+				addToMetrics(ifFaStatsMetrics, "if_mcast_packets", ifFaStats.IfMcastPackets)
+				addToMetrics(ifFaStatsMetrics, "if_mcast_octets", ifFaStats.IfMcastOctets)
 
 				for key, value := range ifFaStatsMetrics {
 					if err := app.addMetricToOutput(instance, output.JoinMetricName(logicPortSeriesName, "ingress_stats", "if_fa_stats", key), ifFaStatsLabels, value, timestamp); err != nil {
@@ -86,10 +83,10 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 		}
 
 		if stats := interfaceInfo.GetEgressStats(); stats != nil {
-			metrics[output.JoinMetricName("egress_stats", "if_packets")] = float64(stats.GetIfPackets())
-			metrics[output.JoinMetricName("egress_stats", "if_octets")] = float64(stats.GetIfOctets())
-			metrics[output.JoinMetricName("egress_stats", "if_ucast_packets")] = float64(stats.GetIfUcastPackets())
-			metrics[output.JoinMetricName("egress_stats", "if_mcast_packets")] = float64(stats.GetIfMcastPackets())
+			addToMetrics(metrics, output.JoinMetricName("egress_stats", "if_packets"), stats.IfPackets)
+			addToMetrics(metrics, output.JoinMetricName("egress_stats", "if_octets"), stats.IfOctets)
+			addToMetrics(metrics, output.JoinMetricName("egress_stats", "if_ucast_packets"), stats.IfUcastPackets)
+			addToMetrics(metrics, output.JoinMetricName("egress_stats", "if_mcast_packets"), stats.IfMcastPackets)
 
 			for _, ifFaStats := range stats.GetIfFaStats() {
 				if ifFaStats == nil {
@@ -100,14 +97,13 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 					"if_family": ifFaStats.GetIfFamily(),
 				})
 
-				ifFaStatsMetrics := map[string]float64{
-					"if_packets":       float64(ifFaStats.GetIfPackets()),
-					"if_octets":        float64(ifFaStats.GetIfOctets()),
-					"if_v6_packets":    float64(ifFaStats.GetIfV6Packets()),
-					"if_v6_octets":     float64(ifFaStats.GetIfV6Octets()),
-					"if_mcast_packets": float64(ifFaStats.GetIfMcastPackets()),
-					"if_mcast_octets":  float64(ifFaStats.GetIfMcastOctets()),
-				}
+				ifFaStatsMetrics := make(map[string]float64)
+				addToMetrics(ifFaStatsMetrics, "if_packets", ifFaStats.IfPackets)
+				addToMetrics(ifFaStatsMetrics, "if_octets", ifFaStats.IfOctets)
+				addToMetrics(ifFaStatsMetrics, "if_v6_packets", ifFaStats.IfV6Packets)
+				addToMetrics(ifFaStatsMetrics, "if_v6_octets", ifFaStats.IfV6Octets)
+				addToMetrics(ifFaStatsMetrics, "if_mcast_packets", ifFaStats.IfMcastPackets)
+				addToMetrics(ifFaStatsMetrics, "if_mcast_octets", ifFaStats.IfMcastOctets)
 
 				for key, value := range ifFaStatsMetrics {
 					if err := app.addMetricToOutput(instance, output.JoinMetricName(logicPortSeriesName, "ingress_stats", "if_fa_stats", key), ifFaStatsLabels, value, timestamp); err != nil {
@@ -134,19 +130,18 @@ func (app *App) jtiParseLogicalPort(instance string, data *jti.LogicalPort, base
 					"queue_number": fmt.Sprintf("%d", queueStat.GetQueueNumber()),
 				})
 
-				queueMetrics := map[string]float64{
-					"packets":                  float64(queueStat.GetPackets()),
-					"bytes":                    float64(queueStat.GetBytes()),
-					"tail_drop_packets":        float64(queueStat.GetTailDropPackets()),
-					"rate_limit_drop_packets":  float64(queueStat.GetRateLimitDropPackets()),
-					"rate_limit_drop_bytes":    float64(queueStat.GetRateLimitDropBytes()),
-					"red_drop_packets":         float64(queueStat.GetRedDropPackets()),
-					"red_drop_bytes":           float64(queueStat.GetRedDropBytes()),
-					"average_buffer_occupancy": float64(queueStat.GetAverageBufferOccupancy()),
-					"current_buffer_occupancy": float64(queueStat.GetCurrentBufferOccupancy()),
-					"peak_buffer_occupancy":    float64(queueStat.GetPeakBufferOccupancy()),
-					"allocated_buffer_size":    float64(queueStat.GetAllocatedBufferSize()),
-				}
+				queueMetrics := make(map[string]float64)
+				addToMetrics(queueMetrics, "packets", queueStat.Packets)
+				addToMetrics(queueMetrics, "bytes", queueStat.Bytes)
+				addToMetrics(queueMetrics, "tail_drop_packets", queueStat.TailDropPackets)
+				addToMetrics(queueMetrics, "rate_limit_drop_packets", queueStat.RateLimitDropPackets)
+				addToMetrics(queueMetrics, "rate_limit_drop_bytes", queueStat.RateLimitDropBytes)
+				addToMetrics(queueMetrics, "red_drop_packets", queueStat.RedDropPackets)
+				addToMetrics(queueMetrics, "red_drop_bytes", queueStat.RedDropBytes)
+				addToMetrics(queueMetrics, "average_buffer_occupancy", queueStat.AverageBufferOccupancy)
+				addToMetrics(queueMetrics, "current_buffer_occupancy", queueStat.CurrentBufferOccupancy)
+				addToMetrics(queueMetrics, "peak_buffer_occupancy", queueStat.PeakBufferOccupancy)
+				addToMetrics(queueMetrics, "allocated_buffer_size", queueStat.AllocatedBufferSize)
 
 				for queueMetricsName, queueMetricsValue := range queueMetrics {
 					if err := app.addMetricToOutput(instance, output.JoinMetricName(logicPortSeriesName, dir, queueMetricsName), queueLabels, queueMetricsValue, timestamp); err != nil {
