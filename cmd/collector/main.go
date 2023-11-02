@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"time"
 
 	"github.com/vitalvas/gokit/xcmd"
 	"github.com/vitalvas/junos-streaming-analytics/internal/core"
@@ -30,7 +29,7 @@ func main() {
 	}
 
 	group.Go(func() error {
-		return xcmd.PeriodicRun(ctx, app.SendAllOutputs, time.Second)
+		return xcmd.PeriodicRun(ctx, app.SendAllOutputs, conf.SendOutputTimer)
 	})
 
 	if conf.JTI != nil {

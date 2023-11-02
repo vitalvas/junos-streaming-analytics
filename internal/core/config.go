@@ -7,15 +7,17 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	"time"
 
 	"github.com/vitalvas/junos-streaming-analytics/internal/output"
 	"gopkg.in/yaml.v3"
 )
 
 type CollectorConfig struct {
-	Outputs map[string]output.Config      `yaml:"outputs" json:"outputs"`
-	JTI     map[string]CollectorJTIConfig `yaml:"jti" json:"jti"`
-	Workers int                           `yaml:"workers" json:"workers"`
+	Outputs         map[string]output.Config      `yaml:"outputs" json:"outputs"`
+	JTI             map[string]CollectorJTIConfig `yaml:"jti" json:"jti"`
+	Workers         int                           `yaml:"workers" json:"workers"`
+	SendOutputTimer time.Duration                 `yaml:"send_output_timer" json:"send_output_timer"`
 }
 
 type CollectorJTIConfig struct {
@@ -35,7 +37,8 @@ func ParseCollectorConfig(configPath string) (*CollectorConfig, error) {
 				Addr: "[::]:21000",
 			},
 		},
-		Workers: runtime.NumCPU(),
+		Workers:         runtime.NumCPU(),
+		SendOutputTimer: 10 * time.Second,
 	}
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
