@@ -137,5 +137,22 @@ func (app *App) processJuniperNetworksSensors(msg jtiMessage, jns *jti.JuniperNe
 		}
 	}
 
+	if proto.HasExtension(jns, jti.E_NpuMemoryExt) {
+		extension := proto.GetExtension(jns, jti.E_NpuMemoryExt)
+		if extension == nil {
+			return fmt.Errorf("error getting jti E_NpuMemoryExt extension")
+		}
+
+		switch p := extension.(type) {
+		case *jti.NetworkProcessorMemoryUtilization:
+			if err := app.jtiParseNpuMemoryUtilization(msg.Instance, p, baseLabels, timestamp); err != nil {
+				return err
+			}
+
+		default:
+			return fmt.Errorf("unknown jti E_NpuMemoryExt protobuf extension type: %T", p)
+		}
+	}
+
 	return nil
 }

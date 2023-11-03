@@ -12,6 +12,7 @@ NAMES = [
     "port.proto",
     "logical_port.proto",
     "optics.proto",
+    "npu_memory_utilization.proto",
 ]
 
 curdir = os.path.dirname(os.path.realpath(__file__))
