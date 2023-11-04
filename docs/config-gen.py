@@ -36,6 +36,7 @@ class ConfigGenerator:
             "/junos/system/linecard/interface/logical/usage/",
             "/junos/system/linecard/interface/queue/",
             "/junos/system/linecard/npu/memory/",
+            "/junos/system/linecard/npu/utilization/",
             "/junos/system/linecard/optics/",
         ]
 

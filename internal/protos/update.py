@@ -9,10 +9,11 @@ VERSION = "22.2"
 NAMES = [
     "telemetry_top.proto",
     "firewall.proto",
-    "port.proto",
     "logical_port.proto",
-    "optics.proto",
     "npu_memory_utilization.proto",
+    "npu_utilization.proto",
+    "optics.proto",
+    "port.proto",
 ]
 
 curdir = os.path.dirname(os.path.realpath(__file__))
