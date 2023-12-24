@@ -8,6 +8,6 @@ require (
 	github.com/prometheus/prometheus v0.48.1
 	github.com/vitalvas/gokit v0.8.0
 	golang.org/x/sync v0.5.0
-	google.golang.org/protobuf v1.31.0
+	google.golang.org/protobuf v1.32.0
 	gopkg.in/yaml.v3 v3.0.1
 )
