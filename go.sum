@@ -8,8 +8,8 @@ github.com/kisielk/errcheck v1.5.0/go.mod h1:pFxgyoBC7bSaBwPgfKdkLd5X25qrDl4LWUI
 github.com/kisielk/gotool v1.0.0/go.mod h1:XhKaO+MFFWcvkIS/tQcRk01m1F5IRFswLeQ+oQHNcck=
 github.com/prometheus/prometheus v0.52.1 h1:BrQ29YG+mzdGh8DgHPirHbeMGNqtL+INe0rqg7ttBJ4=
 github.com/prometheus/prometheus v0.52.1/go.mod h1:3z74cVsmVH0iXOR5QBjB7Pa6A0KJeEAK5A6UsmAFb1g=
-github.com/vitalvas/gokit v0.8.0 h1:XaRFJyzMplM1foSg26UMLKMEwmZCtRaRbUQW8ITxwLY=
-github.com/vitalvas/gokit v0.8.0/go.mod h1:vY6m6iuIVnIq/hpM3kxnkfx3ovdLfF0WcdmLWQnWbK8=
+github.com/vitalvas/gokit v0.16.0 h1:mmlzoeaouVcTVRRh4NIfNTc7RxoGwxC+dRuCUmyDNAo=
+github.com/vitalvas/gokit v0.16.0/go.mod h1:IaVDThEmilfCdvZMdn18IB5nrEiFVHG86/IdSlM0owU=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.2.1/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
