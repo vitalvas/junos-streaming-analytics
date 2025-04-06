@@ -8,7 +8,7 @@ require (
 	github.com/golang/snappy v1.0.0
 	github.com/prometheus/prometheus v0.302.1
 	github.com/vitalvas/gokit v0.16.0
-	golang.org/x/sync v0.12.0
+	golang.org/x/sync v0.13.0
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v3 v3.0.1
 )
