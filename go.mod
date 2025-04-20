@@ -6,7 +6,7 @@ toolchain go1.24.1
 require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/snappy v1.0.0
-	github.com/prometheus/prometheus v0.302.1
+	github.com/prometheus/prometheus v0.303.0
 	github.com/vitalvas/gokit v0.16.0
 	golang.org/x/sync v0.13.0
 	google.golang.org/protobuf v1.36.6
@@ -19,5 +19,5 @@ require (
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.62.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 )
