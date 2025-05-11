@@ -1,6 +1,7 @@
 module github.com/vitalvas/junos-streaming-analytics
 
-go 1.21
+go 1.23.0
+
 toolchain go1.24.1
 
 require (
@@ -8,7 +9,7 @@ require (
 	github.com/golang/snappy v1.0.0
 	github.com/prometheus/prometheus v0.303.1
 	github.com/vitalvas/gokit v0.16.0
-	golang.org/x/sync v0.13.0
+	golang.org/x/sync v0.14.0
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v3 v3.0.1
 )
